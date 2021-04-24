@@ -1,0 +1,214 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Login page</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
+    <script src='main.js'></script>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        
+        body {
+            margin: 0px;
+            padding: 10px;
+            text-align: center;
+        }
+        
+        header {
+            padding: 20px;
+            background: #24262b;
+            color: black;
+            /* border-radius: 20px;*/
+        }
+        
+        .navbar {
+            display: flex;
+            align-items: center;
+            padding: 20px;
+            padding-left: 50px;
+            padding-right: 30px;
+            padding-top: 50px;
+        }
+        
+        nav {
+            flex: 1;
+            text-align: right;
+        }
+        
+        nav ul {
+            display: inline-block;
+            list-style: none;
+        }
+        
+        nav ul li {
+            display: inline-block;
+            margin-right: 70px;
+            color: white;
+        }
+        
+        nav ul li a {
+            text-decoration: none;
+            font-size: 20px;
+            color: white;
+            font-family: sans-serif;
+        }
+        
+        nav ul li button {
+            font-size: 20px;
+            color: white;
+            outline: none;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            font-family: sans-serif;
+        }
+        
+        nav ul li button:hover {
+            color: aqua;
+        }
+        
+        nav ul li a:hover {
+            color: aqua;
+        }
+        
+        a {
+            text-decoration: none;
+            color: white;
+            font-size: 28px;
+        }
+        
+        .login-box {
+            position: absolute;
+            top: 60%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 400px;
+            padding: 40px;
+            background: rgba(0, 0, 0, .8);
+            box-sizing: border-box;
+            box-shadow: 0 15px 25px rgba(0, 0, 0, .5);
+            border-radius: 10px;
+        }
+        
+        .mt-4 {
+            color: #fff;
+            width: 100%;
+            padding: 25px 0;
+            font-size: 16px;
+        }
+        
+        .login-box h2 {
+            margin: 0 0 30px;
+            padding: 0;
+            text-align: center;
+            color: #fff;
+        }
+        
+        .login-box .login-field {
+            position: relative;
+        }
+        
+        .login-box .login-field input {
+            width: 100%;
+            padding: 10px 0;
+            font-size: 16px;
+            color: #fff;
+            margin-bottom: 30px;
+            border: none;
+            border-bottom: 1px solid #fff;
+            outline: none;
+            background: transparent;
+        }
+        
+        .login-box .login-field label {
+            position: absolute;
+            top: 0;
+            left: 0;
+            letter-spacing: 1px;
+            padding: 10px 0;
+            font-size: 16px;
+            color: #fff;
+            pointer-events: none;
+            transition: .5s;
+        }
+        
+        .login-box .login-field input:focus~label,
+        .login-box .login-field input:valid~label {
+            top: -23px;
+            left: 0;
+            color: aqua;
+            font-size: 12px;
+        }
+        
+        .login-box button {
+            background: transparent;
+            border: none;
+            outline: none;
+            color: #fff;
+            background: #03a9f4;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="navbar">
+            <div>
+                <a href='index.html'>Soil Analysis</a>
+            </div>
+            <nav>
+                <ul id='MenuItems'>
+                    <li><a href='login'>Home</a></li>
+                    <li><a href="about">About Us</a></li>
+                    <li><a href="services">Services</a></li>
+                    <li><a href="contact">Contact</a></li>
+
+                    {% if user.is_authenticated %}
+                    <li>Hello, {{user.first_name}}</li>
+                    <li><a href="accounts/logout">Logout</a></li>
+                    {% else %}
+                    <li><a href="register">Register</a></li>
+                    <li><a href="signin">Login</a></li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <div class="login-box">
+        <h2>Login</h2>
+        <form action="login" method="post">
+            {% csrf_token %}
+            <div class="login-field">
+                <input type="text" name="username" placeholder="username"><br>
+            </div>
+            <div class="login-field">
+                <input type="password" name="password" placeholder="password"><br>
+            </div>
+            <button type="submit">Submit</button>
+        </form>
+        <div class="mt-4">
+            <div class="d-flex justify-content-center links">
+                Don't have an account? <a href="{% url 'register' %}" class="ml-2">Sign Up</a>
+            </div>
+        </div>
+
+        <div>
+            {% for message in messages %}
+            <h3>{{message}}</h3>
+            {% endfor %}
+        </div>
+    </div>
+
+</body>
+
+</html>
